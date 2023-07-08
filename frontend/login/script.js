@@ -5,12 +5,12 @@ document
     event.preventDefault(); // Prevent form submission
 
     // Get email and password values
-    var email = document.getElementById("emailInput").value;
+    var phonenumber = document.getElementById("phonenumber").value;
     var password = document.getElementById("passwordInput").value;
 
     // Do something with the email and password (e.g., send to server for authentication)
     let loginData = {
-      email: email,
+      phonenumber: phonenumber,
       password: password,
     };
     // const dataFromLocalStorage = JSON.parse(localStorage.getItem("user"));

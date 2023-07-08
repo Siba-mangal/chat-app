@@ -8,10 +8,9 @@ signupForm.addEventListener("submit", function (e) {
 
   // Get form values
   const username = document.getElementById("username").value;
-  const email = document.getElementById("email").value;
+  const phonenumber = document.getElementById("phonenumber").value;
   const password = document.getElementById("password").value;
   const confirmPassword = document.getElementById("confirm-password").value;
-  const file = document.getElementById("file").value;
 
   // Check if password matches confirm password
   if (password !== confirmPassword) {
@@ -20,17 +19,22 @@ signupForm.addEventListener("submit", function (e) {
   }
 
   // Create an object with the user data
-  const user = {
-    username: username,
-    email: email,
-    password: password,
-    // image: file,
-  };
+  // const user = {
+  //   username: username,
+  //   email: email,
+  //   password: password,
+  //   image: file,
+  // };
+  const formData = new FormData();
+  formData.append("username", username);
+  formData.append("phonenumber", phonenumber);
+  formData.append("password", password);
+  const formObject = Object.fromEntries(formData.entries());
 
   // Add user data to localStorage
-  console.log(user);
+
   axios
-    .post("http://localhost:3000/user/signup", user)
+    .post("http://localhost:3000/user/signup", formObject)
     .then((response) => {
       // console.log(response);
       if (response.status === 201) {

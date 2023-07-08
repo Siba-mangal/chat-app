@@ -11,14 +11,9 @@ const User = sequelize.define(
       primaryKey: true,
     },
     username: Sequelize.STRING,
-    email: {
+    phone: {
       type: Sequelize.STRING,
       allowNull: false,
-    },
-    image: {
-      type: Sequelize.STRING,
-      required: true,
-      allowNull: true,
     },
     password: {
       type: Sequelize.STRING,

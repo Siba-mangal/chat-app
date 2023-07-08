@@ -38,7 +38,7 @@ label {
 }
 
 input[type="text"],
-input[type="email"],
+input[type="tel"],
 input[type="password"] {
   display: block;
   width: 100%;
@@ -74,21 +74,6 @@ button:hover {
   text-decoration: none;
 }
 
-/* Existing CSS styles... */
-
-/* Overlay */
-/* Existing styles */
-
-/* Popup message */
-/* Existing styles */
-
-/* Popup message */
-/* Existing styles */
-
-/* Popup message */
-/* Existing styles */
-
-/* Popup message */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -123,7 +108,6 @@ button:hover {
 .close-button {
   font-size: 18px;
   margin: auto !important;
-  /* background-color: transparent; */
   border: none;
   width: 44px;
   cursor: pointer;

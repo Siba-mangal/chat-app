@@ -1,23 +1,21 @@
 const User = require("../models/userModule");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
-const fileUpload = require("express-fileupload");
 
 exports.signUp = async (req, res, next) => {
   try {
     // console.log(req.body);
     const username = req.body.username;
-    const email = req.body.email;
+    const phonenumber = req.body.phonenumber;
     const password = req.body.password;
-    console.log(req.body);
 
-    const user = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { phone: phonenumber } });
     if (!user) {
       const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
       User.create({
         username: username,
-        email: email,
+        phone: phonenumber,
         password: hashPassword,
       }).then((response) => {
         res.status(201).json({ success: true, message: "Signup Successfully" });
@@ -39,7 +37,7 @@ exports.login = async (req, res) => {
     const { email, password } = req.body;
     console.log(email);
     console.log(password);
-    const user = await User.findOne({ where: { email: email } });
+    const user = await User.findOne({ where: { phone: phonenumber } });
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
