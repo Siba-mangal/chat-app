@@ -34,8 +34,8 @@ const generateToken = (id, name) => {
 
 exports.login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    console.log(email);
+    const { phonenumber, password } = req.body;
+    console.log(phonenumber);
     console.log(password);
     const user = await User.findOne({ where: { phone: phonenumber } });
     if (user) {

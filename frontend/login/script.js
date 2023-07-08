@@ -13,6 +13,7 @@ document
       phonenumber: phonenumber,
       password: password,
     };
+    console.log(loginData);
     // const dataFromLocalStorage = JSON.parse(localStorage.getItem("user"));
     axios
       .post("http://localhost:3000/user/login", loginData, {
@@ -33,6 +34,6 @@ document
         }
       });
     // Reset form fields
-    document.getElementById("emailInput").value = "";
+    document.getElementById("phonenumber").value = "";
     document.getElementById("passwordInput").value = "";
   });
