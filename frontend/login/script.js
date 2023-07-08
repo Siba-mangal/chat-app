@@ -15,7 +15,9 @@ document
     };
     // const dataFromLocalStorage = JSON.parse(localStorage.getItem("user"));
     axios
-      .post("http://localhost:3000/user/login", loginData)
+      .post("http://localhost:3000/user/login", loginData, {
+        credentials: "included",
+      })
       .then((response) => {
         if (response.status === 201) {
           console.log(response);

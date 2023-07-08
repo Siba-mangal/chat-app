@@ -12,7 +12,12 @@ const app = express();
 const { SESSION_SECRET } = process.env;
 app.use(session({ secret: SESSION_SECRET }));
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
