@@ -10,6 +10,12 @@ header {
   color: #fff;
 }
 
+header #logout-button{
+    margin-left: 90%;
+    /* box-shadow: white 0px 0px; */
+    background-color: red;
+}
+
 h1 {
   margin: 0;
   font-size: 24px;
@@ -20,11 +26,21 @@ h1 {
   margin: 20px auto;
   display: flex;
 }
+.chat-box{
+  display: none;
+}
 
 .chat-sidebar {
   flex: 1;
   background-color: #f4f4f4;
   padding: 20px;
+}
+
+.chat-sidebar .logged-in-user{
+  text-align: center;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  font-size:large;
+  cursor: pointer;
 }
 
 .logged-in-user {
@@ -34,6 +50,9 @@ h1 {
 .chat-content {
   flex: 2;
   padding: 20px;
+}
+.chat-content .start-ahead {
+  display: block;
 }
 
 .chat-box {
@@ -67,10 +86,22 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-
-footer {
-  background-color: #333;
+.logged-in-user {
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
   padding: 10px;
-  color: #fff;
-  text-align: center;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.logged-in-user h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.logged-in-user p {
+  margin: 0;
+  font-size: 16px;
+  color: #555;
 }

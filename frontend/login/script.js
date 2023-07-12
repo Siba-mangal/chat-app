@@ -25,6 +25,7 @@ document
           localStorage.setItem("token", response.data.token);
           logSuccess.style.color = "green";
           logSuccess.innerHTML += response.data.message;
+          location.href = "../chatdashboard/index.html";
         }
       })
       .catch((error) => {
@@ -33,6 +34,7 @@ document
           logSuccess.innerHTML += error.response.data.message;
         }
       });
+
     // Reset form fields
     document.getElementById("phonenumber").value = "";
     document.getElementById("passwordInput").value = "";

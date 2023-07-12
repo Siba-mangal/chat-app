@@ -1,8 +1,9 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/database");
+const User = require("./userModule");
 
-const User = sequelize.define(
-  "User",
+const Message = sequelize.define(
+  "Message",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -10,21 +11,26 @@ const User = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    username: Sequelize.STRING,
-    phone: {
+    sender: {
       type: Sequelize.STRING,
-      allowNull: false,
+      // references: {
+      //   model: User,
+      //   key: "id",
+      // },
     },
-    password: {
+    receiver: {
       type: Sequelize.STRING,
-      allowNull: false,
+      // references: {
+      //   model: User,
+      //   key: "id",
+      // },
     },
-    is_online: {
+    content: {
       type: Sequelize.STRING,
-      default: "0",
+      trim: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = User;
+module.exports = Message;

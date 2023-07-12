@@ -5,21 +5,22 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Chat Application</title>
         <link rel="stylesheet" href="styles.css" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js"
+            integrity="sha512-VJ6+sp2E5rFQk05caiXXzQd1wBABpjEj1r5kMiLmGAAgwPItw1YpqsCCBtq8Yr1x6C49/mTpRdXtq8O2RcZhlQ=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     </head>
     <body>
         <header>
-            <h1>Welcome to Chat App</h1>
+            <h1>Welcome to ChiChat👋</h1>
+            <button id="logout-button">Logout</button>
         </header>
         <main>
             <div class="container">
                 <div class="chat-sidebar">
-                    <div class="logged-in-user">
-                        <h2>Logged in users:</h2>
-                        <p id="username">John Doe</p>
-                        <!-- Replace with the actual username -->
-                    </div>
                 </div>
                 <div class="chat-content">
+                    <h3 id="head-tag">Click here to start the message</h3>
                     <div class="chat-box">
                         <div class="chat-messages">
                             <!-- Chat messages will be displayed here -->
@@ -27,14 +28,13 @@
                         <div class="chat-input">
                             <input type="text"
                                 placeholder="Type your message..." />
-                            <button>Send</button>
+                            <button id="send-msg">Send</button>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-        <footer>
-            <p>&copy; 2023 Chat App. All rights reserved.</p>
-        </footer>
+        <script src="script.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </body>
 </html>

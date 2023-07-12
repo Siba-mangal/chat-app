@@ -1,23 +1,24 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/database");
-
-const chatSchema = sequelize.define(
-  "chat",
+const User = require("./userModule");
+const Chat = sequelize.define(
+  "Chat",
   {
-    sender_id: {
-      type: Sequelize.DataTypes.STRING,
-      ref: "User",
-    },
-    receiver_id: {
-      type: Sequelize.DataTypes.STRING,
-      ref: "User",
-    },
-    message: {
+    chatName: {
       type: Sequelize.STRING,
-      required: true,
+      allowNull: true,
+      trim: true,
+    },
+    isGroupChat: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: false,
+    },
+    latestMessage: {
+      type: Sequelize.STRING,
+      allowNull: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = User;
+module.exports = Chat;

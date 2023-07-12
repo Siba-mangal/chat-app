@@ -1,6 +1,7 @@
 const User = require("../models/userModule");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const http = require("http");
 
 exports.signUp = async (req, res, next) => {
   try {
@@ -34,6 +35,9 @@ const generateToken = (id, name) => {
 
 exports.login = async (req, res) => {
   try {
+    const io = require("socket.io")(http);
+    let usp = io.of("/user-namespace");
+
     const { phonenumber, password } = req.body;
     console.log(phonenumber);
     console.log(password);
@@ -41,6 +45,18 @@ exports.login = async (req, res) => {
     if (user) {
       const isMatch = await bcrypt.compare(password, user.password);
       if (isMatch) {
+        await usp.emit("userLoggedIn", { username: user.username });
+        await usp.on("connection", function (socket) {
+          console.log("User connected");
+
+          // Handle disconnection event
+          socket.on("disconnect", function () {
+            console.log("User disconnected");
+
+            // Emit "userDisconnected" event
+            usp.emit("userDisconnected", { username: socket.username });
+          });
+        });
         return res.status(201).json({
           message: "Login successful",
           token: generateToken(user.id, user.username),
