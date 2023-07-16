@@ -10,10 +10,45 @@ header {
   color: #fff;
 }
 
-header #logout-button{
-    margin-left: 90%;
-    /* box-shadow: white 0px 0px; */
+.profile {
+    display: flex;
+    align-items: center;
+    
+}
+
+.profile-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 40px;
+    border: 1px solid black;
+    border-radius: 10px;
+    margin-right: 10px;
+    background-color: white;
+    margin-left: auto;
+    cursor: pointer;
+}
+
+/* .profile-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px; */
+/* }  */
+
+#username {
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}
+
+
+#logout-button{
+  display: none;
+    margin-left: 91.5%;
     background-color: red;
+    margin-top: 2px;
 }
 
 h1 {
@@ -51,8 +86,40 @@ h1 {
   flex: 2;
   padding: 20px;
 }
-.chat-content .start-ahead {
+/* .chat-content .start-ahead {
   display: block;
+} */
+
+#head-tag{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
+    font-style: normal;
+    font-family: auto;
+}
+#user-name{
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: 40px;
+    /* border: 1px solid black; */
+    border-radius: 10px;
+    margin-right: 10px;
+    background-color: #333;
+    color: #f4f4f4;
+    font-size: large;
+    font-style: normal;
+    font-family: auto;
+    margin: auto;
+    cursor: pointer;
+}
+#person-name{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 10px;
 }
 
 .chat-box {

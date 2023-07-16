@@ -13,19 +13,12 @@ const Message = sequelize.define(
     },
     sender: {
       type: Sequelize.STRING,
-      // references: {
-      //   model: User,
-      //   key: "id",
-      // },
     },
     receiver: {
       type: Sequelize.STRING,
-      // references: {
-      //   model: User,
-      //   key: "id",
-      // },
     },
     content: {
+      // type: Sequelize.STRING,
       type: Sequelize.STRING,
       trim: true,
     },

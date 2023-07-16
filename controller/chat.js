@@ -1,5 +1,5 @@
 const asyncHandler = require("express-async-handler");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 
 const User = require("../models/userModule");
 const Message = require("../models/messageModel");
@@ -94,4 +94,33 @@ exports.getAccessChat = async (req, res) => {
   // const user = await User.findAll({ id: [req.user.id] });
   res.status(200).send({ users: user });
   // console.log(user);
+};
+
+exports.allAccessChat = async (req, res) => {
+  try {
+    const { sender, receiver } = req.body;
+    console.log(sender, receiver);
+    const messages = await Message.findAll({
+      where: { sender: sender, receiver: receiver },
+      order: [["updatedAt", "DESC"]],
+    });
+
+    const projectedMessages = await messages.map((message) => {
+      // console.log("message", typeof sender);
+      return {
+        fromSelf: message.sender === sender.toString(),
+        message: message.content,
+        sender: message.sender,
+        receiver: message.receiver,
+      };
+    });
+    console.log(projectedMessages);
+
+    res.status(200).send({
+      chats: projectedMessages,
+      message: "All messages were successfully get",
+    });
+  } catch (error) {
+    res.status(404).send({ error: error.message });
+  }
 };

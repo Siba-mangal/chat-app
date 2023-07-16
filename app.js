@@ -33,22 +33,6 @@ app.use("/api", chatRoute);
 User.hasMany(Message);
 Message.belongsTo(User);
 
-// Chat.hasMany(Message);
-// Message.belongsTo(Chat);
-
-// User.hasMany(Chat);
-// Chat.belongsTo(User);
-
-// User.hasMany(Message);
-// Message.belongsTo(User);
-
-// Chat.belongsToMany(User, { through: "ChatUser" });
-// Chat.belongsTo(User, { as: "groupAdmin" });
-// Chat.hasMany(Message, { foreignKey: "chatId" });
-
-// Message.belongsTo(User, { foreignKey: "senderUserId" });
-// Message.belongsTo(Chat, { foreignKey: "chatId" });
-
 sequelize
   .sync()
   .then((res) => {

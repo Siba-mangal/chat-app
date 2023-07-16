@@ -8,22 +8,35 @@
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js"
             integrity="sha512-VJ6+sp2E5rFQk05caiXXzQd1wBABpjEj1r5kMiLmGAAgwPItw1YpqsCCBtq8Yr1x6C49/mTpRdXtq8O2RcZhlQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            crossorigin="anonymous" referrerpolicy="no-referrer">
+        </script>
+
     </head>
     <body>
         <header>
-            <h1>Welcome to ChiChat👋</h1>
+
+            <div class="profile">
+                <h1>Welcome to ChiChat👋</h1>
+                <div class="profile-box">
+                    <span id="username"></span>
+                </div>
+            </div>
             <button id="logout-button">Logout</button>
         </header>
+
         <main>
             <div class="container">
                 <div class="chat-sidebar">
                 </div>
                 <div class="chat-content">
                     <h3 id="head-tag">Click here to start the message</h3>
+                    <div id="user-name">
+                        <p id="person-name"></p>
+                    </div>
                     <div class="chat-box">
                         <div class="chat-messages">
                             <!-- Chat messages will be displayed here -->
+                            <!-- <p id="messages"></p> -->
                         </div>
                         <div class="chat-input">
                             <input type="text"
