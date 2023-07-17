@@ -4,6 +4,7 @@ const cors = require("cors");
 const sequelize = require("./util/database");
 const session = require("express-session");
 const http = require("http");
+const socket = require("socket.io");
 require("dotenv").config();
 
 // const User = require("./models/userModule");
@@ -33,9 +34,33 @@ app.use("/api", chatRoute);
 User.hasMany(Message);
 Message.belongsTo(User);
 
+let server;
 sequelize
   .sync()
   .then((res) => {
-    app.listen(3000);
+    server = app.listen(3000);
   })
   .catch((err) => console.log(err));
+
+// const io = socket(server, {
+//   cors: {
+//     origin: "http://localhost:3000",
+//     credentials: true,
+//   },
+// });
+
+// global.onlineUsers = new Map();
+
+// io.on("connection", (socket) => {
+//   global.chatSocket = socket;
+//   socket.on("add-user", (userId) => {
+//     onlineUsers.set(userId, socket.id);
+//   });
+
+//   socket.on("send-msg", (data) => {
+//     const sendUserSocket = onlineUsers.get(data.sender);
+//     if (sendUserSocket) {
+//       socket.sender(sendUserSocket).emit("msg-received", data.message);
+//     }
+//   });
+// });

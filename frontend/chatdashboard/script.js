@@ -1,3 +1,5 @@
+// import { io } from 'socket.io-client';
+
 document.getElementById("logout-button").addEventListener("click", function () {
   location.href = "../login/index.html";
   localStorage.clear();
@@ -10,12 +12,34 @@ document.querySelector(".profile-box").addEventListener("click", function () {
     document.getElementById("logout-button").style.display = "block";
   }
 });
+
+function parseJwt(token) {
+  var baseUrl = token.split(".")[1];
+  var base = baseUrl.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    window
+      .atob(base)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+  return JSON.parse(jsonPayload);
+}
+
+function getUsername() {
+  const token = localStorage.getItem("token");
+  const decodeToken = parseJwt(token);
+  console.log(decodeToken.userId);
+  const userId = decodeToken.userId;
+  return userId;
+}
+
 const token = localStorage.getItem("token");
 let receiverId;
 
 document.addEventListener("DOMContentLoaded", async function () {
-  // const username = getUsername(); // Fetch the logged-in username from the server
-  // Set the username in the HTML
   const usernameElement = document.querySelector(".chat-sidebar");
   document.getElementById("username").innerHTML = parseJwt(token).username;
 
@@ -24,7 +48,8 @@ document.addEventListener("DOMContentLoaded", async function () {
       headers: { Authorization: `Bearer ${token}` },
     })
     .then((response) => {
-      console.log(response.data.users);
+      console.log(response.data);
+
       for (let i = 0; i < response.data.users.length; i++) {
         const para = document.createElement("p");
         // para.setAttribute("class", "para");
@@ -62,6 +87,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             sender: getUsername(),
             receiver: receiverId,
           };
+          document.querySelector(".chat-messages").innerHTML = "";
           const users = await axios.post(
             "http://localhost:3000/api/allChat",
             getMsgObj,
@@ -70,34 +96,32 @@ document.addEventListener("DOMContentLoaded", async function () {
             }
           );
           console.log(users);
-          document.querySelector(".chat-messages").innerHTML = "";
+          const totalMsg = users.data.chats.length;
+          console.log(users.data.chats[totalMsg - 1].id);
+          localStorage.setItem(
+            "lastMessage",
+            users.data.chats[totalMsg - 1].id
+          );
+
           users.data.chats.forEach((chat) => {
-            if (pId === chat.receiver) {
-              const div1 = document.createElement("div");
-              const div2 = document.createElement("div");
+            // const div1 = document.createElement("div");
+            const div2 = document.createElement("div");
 
-              div2.setAttribute(
-                "class",
-                `message:${chat.fromSelf ? "sender" : "receiver"}`
-              );
-              const div3 = document.createElement("div");
-              div3.setAttribute("class", "content");
+            div2.setAttribute(
+              "class",
+              `message-${chat.fromSelf ? "sender" : "receiver"}`
+            );
+            const div3 = document.createElement("div");
+            div3.setAttribute("class", "content");
 
-              const pElem = document.createElement("p");
-              pElem.innerHTML = chat.message;
-              div3.appendChild(pElem);
-              div2.appendChild(div3);
-              div1.appendChild(div2);
-              document.querySelector(".chat-messages").appendChild(div1);
-            } else {
-              console.log("Enter chat message");
-            }
+            const pElem = document.createElement("p");
+            pElem.innerHTML = chat.message;
+            div3.appendChild(pElem);
+            div2.appendChild(div3);
+            document.querySelector(".chat-messages").appendChild(div2);
           });
-
           // --------------------
-
           document.getElementById("person-name").innerHTML = person.textContent;
-
           if (!isChatBoxDisplayed) {
             // Show the chat box
             document.getElementById("head-tag").style.display = "none";
@@ -113,28 +137,6 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     });
 });
-function getUsername() {
-  const token = localStorage.getItem("token");
-  const decodeToken = parseJwt(token);
-  console.log(decodeToken.userId);
-  const username = decodeToken.userId;
-  return username;
-}
-
-function parseJwt(token) {
-  var baseUrl = token.split(".")[1];
-  var base = baseUrl.replace(/-/g, "+").replace(/_/g, "/");
-  var jsonPayload = decodeURIComponent(
-    window
-      .atob(base)
-      .split("")
-      .map(function (c) {
-        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
-      })
-      .join("")
-  );
-  return JSON.parse(jsonPayload);
-}
 
 //send message to server
 

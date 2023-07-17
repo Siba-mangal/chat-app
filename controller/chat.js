@@ -101,8 +101,13 @@ exports.allAccessChat = async (req, res) => {
     const { sender, receiver } = req.body;
     console.log(sender, receiver);
     const messages = await Message.findAll({
-      where: { sender: sender, receiver: receiver },
-      order: [["updatedAt", "DESC"]],
+      where: {
+        [Op.or]: [
+          { sender: sender, receiver: receiver },
+          { sender: receiver, receiver: sender },
+        ],
+      },
+      order: [["updatedAt", "ASC"]],
     });
 
     const projectedMessages = await messages.map((message) => {
@@ -112,6 +117,7 @@ exports.allAccessChat = async (req, res) => {
         message: message.content,
         sender: message.sender,
         receiver: message.receiver,
+        id: message.id,
       };
     });
     console.log(projectedMessages);
