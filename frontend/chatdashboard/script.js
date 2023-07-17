@@ -1,5 +1,3 @@
-// import { io } from 'socket.io-client';
-
 document.getElementById("logout-button").addEventListener("click", function () {
   location.href = "../login/index.html";
   localStorage.clear();
@@ -38,7 +36,7 @@ function parseJwt(token) {
 function getUsername() {
   const token = localStorage.getItem("token");
   const decodeToken = parseJwt(token);
-  console.log(decodeToken.userId);
+  // console.log(decodeToken.userId);
   const userId = decodeToken.userId;
   return userId;
 }
@@ -47,22 +45,21 @@ const token = localStorage.getItem("token");
 let receiverId;
 
 document.addEventListener("DOMContentLoaded", async function () {
-  const usernameElement = document.querySelector(".chat-sidebar");
   document.getElementById("username").innerHTML = parseJwt(token).username;
   const allUsers = await axios.get("http://localhost:3000/api/allUser", {
     headers: { Authorization: `Bearer ${token}` },
   });
-  showUsers(allUsers);
+  console.log(allUsers);
+  showUsers(allUsers.data.users);
 });
-
+const usernameElement = document.querySelector(".chat-sidebar");
 function showUsers(users) {
-  const usernameElement = document.querySelector(".chat-sidebar");
   document.getElementById("username").innerHTML = parseJwt(token).username;
-  for (let i = 0; i < users.data.users.length; i++) {
+  for (let i = 0; i < users.length; i++) {
     const para = document.createElement("p");
     // para.setAttribute("class", "para");
-    para.setAttribute("id", `${users.data.users[i].id}`);
-    const node = document.createTextNode(users.data.users[i].username);
+    para.setAttribute("id", `${users[i].id}`);
+    const node = document.createTextNode(users[i].username);
     para.appendChild(node);
     console.log(para);
 
@@ -71,19 +68,17 @@ function showUsers(users) {
     element.appendChild(para);
 
     usernameElement.appendChild(element);
-    const loggedUser = document.querySelectorAll(".logged-in-user");
-    console.log(loggedUser);
-    showMessages(loggedUser);
   }
+  showMessages();
 }
-
-function showMessages(loggedUser) {
+const showMessages = () => {
+  const loggedUser = document.querySelectorAll(".logged-in-user");
   loggedUser.forEach((person) => {
     person.addEventListener("click", async function () {
       // Get the value of the id attribute
       const pElement = this.querySelector("p");
       const pId = pElement.getAttribute("id");
-      console.log(pId);
+      // console.log(pId);
       receiverId = pId;
       const getMsgObj = {
         sender: getUsername(),
@@ -97,9 +92,7 @@ function showMessages(loggedUser) {
           headers: { Authorization: `Bearer ${token}` },
         }
       );
-      // isChatBoxDisplayed(users);
       users.data.chats.forEach((chat) => {
-        // const div1 = document.createElement("div");
         const div2 = document.createElement("div");
 
         div2.setAttribute(
@@ -124,7 +117,7 @@ function showMessages(loggedUser) {
       isChatBoxDisplayed(person);
     });
   });
-}
+};
 
 function isChatBoxDisplayed(person) {
   let isChatBoxDisplayed = false;
@@ -266,5 +259,6 @@ sendButton.addEventListener("click", async () => {
     .catch((error) => {
       console.log(error);
     });
+  // socket.emit("chat message", msgObj);
   inputField.value = "";
 });
