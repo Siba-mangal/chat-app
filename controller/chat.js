@@ -67,6 +67,7 @@ const Message = require("../models/messageModel");
 exports.accessChat = async (req, res) => {
   // console.log(req.body);
   const { sender, receiver, content } = req.body;
+
   try {
     console.log(req.user.id);
     const message = await Message.create({
@@ -87,7 +88,7 @@ exports.accessChat = async (req, res) => {
     res.status(401).send(error.message);
   }
 };
-exports.getAccessChat = async (req, res) => {
+exports.getAccessUser = async (req, res) => {
   const user = await User.findAll({
     where: { id: { [Op.notIn]: [req.user.id] } },
   });
@@ -98,7 +99,9 @@ exports.getAccessChat = async (req, res) => {
 
 exports.allAccessChat = async (req, res) => {
   try {
-    const { sender, receiver } = req.body;
+    // const { sender, receiver } = req.body;
+    const sender = req.query.param1;
+    const receiver = req.query.param2;
     console.log(sender, receiver);
     const messages = await Message.findAll({
       where: {
@@ -118,6 +121,7 @@ exports.allAccessChat = async (req, res) => {
         sender: message.sender,
         receiver: message.receiver,
         id: message.id,
+        updatedAt: message.updatedAt,
       };
     });
     console.log(projectedMessages);

@@ -46,9 +46,12 @@ header {
 
 #logout-button{
   display: none;
-    margin-left: 91.5%;
-    background-color: red;
-    margin-top: 2px;
+  justify-content: center;
+  align-items: center;
+  margin-left: 85%;
+  background-color: red;
+  margin-top: 2px;
+  /* margin-left: 100%; */
 }
 
 h1 {
@@ -69,22 +72,85 @@ h1 {
   flex: 1;
   background-color: #f4f4f4;
   padding: 20px;
+  display: none;
 }
 
-.chat-sidebar .logged-in-user{
+.chat-sidebar .logged-in-user .logged-in-group{
   text-align: center;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   font-size:large;
   cursor: pointer;
 }
 
+/* .logged-in-user {
+  margin-bottom: 20px;
+} */
 .logged-in-user {
   margin-bottom: 20px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
+
+.logged-in-user h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.logged-in-user p {
+  display:flex;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  font-size: 16px;
+  color: #555;
+}
+/* .logged-in-group{
+  margin-bottom: 20px;
+} */
+
+.logged-in-group {
+  margin-bottom: 20px;
+  background-color: #f9f9f9;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.logged-in-group h2 {
+  margin: 0;
+  font-size: 18px;
+  color: #333;
+}
+
+.logged-in-group p {
+  display:flex;
+  justify-content: center;
+  text-align: center;
+  margin: 0;
+  font-size: 16px;
+  color: white;
+  border-radius: 5px ;
+  background-color: #585454;
+}
+.logged-in-group button{
+  /* color: #555; */
+  margin-top: 5px;
+  width:100%;
+}
+
+
+
+/* ---- */
 
 .chat-content {
   flex: 2;
   padding: 20px;
+  width: 460px;
 }
 /* .chat-content .start-ahead {
   display: block;
@@ -103,7 +169,7 @@ h1 {
     align-items: center;
     justify-content: center;
     width: auto;
-    height: 40px;
+    /* height: 40px; */
     /* border: 1px solid black; */
     border-radius: 10px;
     margin-right: 10px;
@@ -113,13 +179,14 @@ h1 {
     font-style: normal;
     font-family: auto;
     margin: auto;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 #person-name{
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     padding: 10px;
+    width: 100%;
 }
 
 .chat-box {
@@ -157,25 +224,7 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
-.logged-in-user {
-  margin-bottom: 20px;
-  background-color: #f9f9f9;
-  padding: 10px;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
-.logged-in-user h2 {
-  margin: 0;
-  font-size: 18px;
-  color: #333;
-}
-
-.logged-in-user p {
-  margin: 0;
-  font-size: 16px;
-  color: #555;
-}
 /* ------------------ */
 /* message-css */
 
@@ -211,3 +260,201 @@ button {
         background-color: #9900ff20;
       }
     }
+
+    .date{
+      color: rgb(169, 159, 159);
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+    #group-button{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+    margin-top:5px;
+    /* margin-left: auto; */
+    margin-left: 80%;
+    margin-right: auto;
+    /* margin-bottom: 10px; */
+    }
+    #group-button{
+      display: none;
+    }
+
+
+    /* grp css*/
+.form-container {
+  border: 1px solid #ccc;
+  padding: 10px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+  /* display: none; */
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Styles for Popup Overlay */
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+/* Styles for Popup */
+.popup {
+    max-width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+}
+
+.popup h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.popup .form-group {
+    margin-bottom: 15px;
+}
+
+.popup input[type="text"],
+.popup input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.popup button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Blue button color */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.popup button:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Hide the popup by default */
+.popup-overlay {
+  display: none;
+}
+
+/* Show the popup when it is active */
+.popup{
+  display: contents;
+}
+
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+
+h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="number"] {
+  width: 90%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 10px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+
+
+/* --------------------- */
+/* add member to group */
+#member-container{
+  display: none;
+}
+#member-container {
+  background-color: #f4f4f4;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+#member-container h4 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.member-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+
+.member-item:last-child {
+  border-bottom: none;
+}
+
+.member-item span {
+  font-size: 16px;
+}
+
+.member-item button {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  font-size:10px;
+  margin:auto;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}

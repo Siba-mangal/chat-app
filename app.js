@@ -10,27 +10,17 @@ require("dotenv").config();
 // const User = require("./models/userModule");
 const userRoute = require("./route/user");
 const chatRoute = require("./route/chat");
+const grpRoute = require("./route/group");
 //model
 const User = require("./models/userModule");
 const Message = require("./models/messageModel");
 
+const grpModel = require("./models/grpModel");
+const groupMemberModel = require("./models/groupMemberModel");
+
 const app = express();
 const { SESSION_SECRET } = process.env;
 app.use(session({ secret: SESSION_SECRET }));
-
-const server = http.createServer(app);
-const { Server } = require("socket.io");
-const io = new Server(server);
-
-// app.get("/", (req, res) => {
-//   res.sendFile(__dirname + "/index.html");
-// });
-
-io.on("connection", (socket) => {
-  socket.on("chat message", (msg) => {
-    console.log("message: " + msg);
-  });
-});
 
 app.use(
   cors({
@@ -45,9 +35,16 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/user", userRoute);
 app.use("/api", chatRoute);
+app.use("/grp", grpRoute);
 
 User.hasMany(Message);
 Message.belongsTo(User);
+
+grpModel.hasMany(Message);
+Message.belongsTo(grpModel);
+
+groupMemberModel.hasMany(grpModel);
+grpModel.belongsTo(groupMemberModel);
 
 sequelize
   .sync()

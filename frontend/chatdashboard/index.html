@@ -1,52 +1,119 @@
+
+
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Chat Application</title>
+        <!-- Link Bootstrap CSS -->
+        <link rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+        <!-- Your custom CSS -->
         <link rel="stylesheet" href="styles.css" />
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js"
             integrity="sha512-VJ6+sp2E5rFQk05caiXXzQd1wBABpjEj1r5kMiLmGAAgwPItw1YpqsCCBtq8Yr1x6C49/mTpRdXtq8O2RcZhlQ=="
-            crossorigin="anonymous" referrerpolicy="no-referrer">
-        </script>
-
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+        <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
     </head>
     <body>
         <header>
+            <div class="container-fluid bg-dark text-light py-2">
+                <div class="row align-items-center">
+                    <div class="col-6">
+                        <h1>Welcome to ChiChat👋</h1>
+                    </div>
+                    <div class="col-6 text-right">
+                        <div class="profile-box">
+                            <span id="username"></span>
+                        </div>
 
-            <div class="profile">
-                <h1>Welcome to ChiChat👋</h1>
-                <div class="profile-box">
-                    <span id="username"></span>
+                        <button id="group-button">Create Group</button>
+                        <button id="logout-button" class="btn btn-danger">Logout</button>
+
+                    </div>
                 </div>
             </div>
-            <button id="logout-button">Logout</button>
         </header>
 
         <main>
-            <div class="container">
-                <div class="chat-sidebar">
-                </div>
-                <div class="chat-content">
-                    <h3 id="head-tag">Click here to start the message</h3>
-                    <div id="user-name">
-                        <p id="person-name"></p>
+
+            <div class="container my-5">
+                <div id="member-container">
+                    <h4>Members</h4>
+                    <div id="member-list">
+                        <!-- Member names and buttons will be added dynamically using JavaScript -->
                     </div>
-                    <div class="chat-box">
-                        <div class="chat-messages">
-                            <!-- Chat messages will be displayed here -->
-                            <!-- <p id="messages"></p> -->
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="chat-sidebar bg-light p-3">
+                            <!-- Chat sidebar content -->
                         </div>
-                        <div class="chat-input">
-                            <input type="text"
-                                placeholder="Type your message..." />
-                            <button id="send-msg">Send</button>
+
+                    </div>
+
+                    <div class="col-md-8">
+                        <div class="chat-content bg-light p-3">
+                            <h3 id="head-tag">Click here to start the message</h3>
+                            <div id="user-name">
+                                <p id="person-name"></p>
+
+                            </div>
+
+                            <div class="chat-box">
+                                <div class="chat-messages">
+                                    <!-- Chat messages will be displayed here -->
+                                    <!-- <p id="messages"></p> -->
+                                </div>
+                                <div class="chat-input mt-3">
+                                    <input type="text" class="form-control"
+                                        placeholder="Type your message..." />
+                                    <button id="send-msg"
+                                        class="btn btn-primary ml-2">Send</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Popup -->
+
+            <div class="popup-overlay">
+                <div class="popup">
+                    <span class="close-btn" onclick="closePopup()">×</span>
+                    <div class="form-container p-4">
+                        <form action id="myForm" onsubmit="createGrp(event)">
+                            <h2 class="mb-3">Create Group</h2>
+                            <div class="form-group">
+                                <input type="text" class="form-control"
+                                    placeholder="Group Name" name="groupName"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <input type="number" class="form-control"
+                                    min="1" max="10" placeholder="Limit"
+                                    name="limit" required>
+                            </div>
+                            <button
+                                class="btn btn-primary btn-block"
+                                id="group-create">Create
+                                Group</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
         </main>
+
+        <!-- Link Bootstrap JS -->
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+        <script
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
         <script src="script.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     </body>
