@@ -78,14 +78,14 @@ exports.accessChat = async (req, res) => {
     });
 
     if (message) {
-      res.status(200).send("Message added successfully");
+      return res.status(200).send("Message added successfully");
     } else {
       throw new Error("Couldn't add message");
     }
 
     console.log(message);
   } catch (error) {
-    res.status(401).send(error.message);
+    return res.status(401).send(error.message);
   }
 };
 exports.getAccessUser = async (req, res) => {
@@ -93,7 +93,7 @@ exports.getAccessUser = async (req, res) => {
     where: { id: { [Op.notIn]: [req.user.id] } },
   });
   // const user = await User.findAll({ id: [req.user.id] });
-  res.status(200).send({ users: user });
+  return res.status(200).send({ users: user });
   // console.log(user);
 };
 
@@ -126,11 +126,11 @@ exports.allAccessChat = async (req, res) => {
     });
     console.log(projectedMessages);
 
-    res.status(200).send({
+    return res.status(200).send({
       chats: projectedMessages,
       message: "All messages were successfully get",
     });
   } catch (error) {
-    res.status(404).send({ error: error.message });
+    return res.status(404).send({ error: error.message });
   }
 };

@@ -48,6 +48,7 @@ function getUsername() {
 
 const token = localStorage.getItem("token");
 let receiverId;
+let creator_id2 = [];
 
 document.addEventListener("DOMContentLoaded", async function () {
   document.querySelector(".chat-sidebar").style.display = "block";
@@ -57,32 +58,30 @@ document.addEventListener("DOMContentLoaded", async function () {
   });
   console.log(allUsers);
   showUsers(allUsers.data.users);
-  const groups = await axios.get("http://localhost:3000/grp/group", {
+  const groups = await axios.get("http://localhost:3000/grp/get-group", {
     headers: { Authorization: `Bearer ${token}` },
   });
   console.log(groups);
-  // groups.data.response.forEach(mem => {
-  //   if (mem.userId === parseJwt(token).userId) {
-  //     showGroup(groups.data)
-  //   }
-  // })
 
   // grp = [];
+
   if (groups.data.otherGrp) {
     for (let i = 0; i < groups.data.otherGrp.length; i++) {
-      // grp.push(groups.data.grpData[i].id, groups.data.grpData[i].name);
       showGroup(groups.data.otherGrp[i]);
     }
   }
-  // console.log(grp);
-  // showGroup(grp);
-  grp = [];
-  console.log(grp);
+
+  for (let i = 0; i < groups.data.forCreatorIds.length; i++) {
+    creator_id2.push(groups.data.forCreatorIds[i]);
+  }
+  // creator_id2 = groups.data.forCreatorIds;
+
   if (groups.data.groups) {
     for (let i = 0; i < groups.data.groups.length; i++) {
       showGroup(groups.data.groups[i]);
     }
   }
+  console.log(creator_id2);
 });
 
 // function grpButtonClick() {
@@ -94,20 +93,7 @@ document.getElementById("group-button").addEventListener("click", () => {
   } else {
     popup.style.display = "none";
   }
-
-  // let isGrpBox = false;
-  // if (!isGrpBox) {
-  //   document.getElementById("head-tag").style.display = "none";
-  //   isGrpBox = true;
-  // } else {
-  //   document.getElementById("head-tag").style.display = "block";
-  // }
 });
-// }
-
-// function grpData() {
-//   const data = document.getElementById("group-create").value;
-//   console.log(data);
 // }
 
 async function createGrp(e) {
@@ -125,9 +111,13 @@ async function createGrp(e) {
 
   // Perform any validation or logic with the values
   console.log(groupName, limit);
-  const groups = await axios.post("http://localhost:3000/grp/group", grpData, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const groups = await axios.post(
+    "http://localhost:3000/grp/add-group",
+    grpData,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
 
   console.log(groups);
   if (groups.data.groups.length > 0) showGroup(groups.data.grpData);
@@ -147,14 +137,30 @@ function showGroup(groups) {
   const element = document.createElement("div");
   element.setAttribute("class", "logged-in-group");
   element.appendChild(para);
-
-  if (groups.isAdmin === true || groups.creator_id === parseJwt(token).userId) {
-    const btn = document.createElement("button");
-    btn.setAttribute("onclick", "showMember(event)");
-    btn.setAttribute("id", `${groups.id}`);
-    btn.innerHTML += "add user";
-    element.appendChild(btn);
+  if (groups.creator_id === parseJwt(token).userId) {
+    if (
+      groups.isAdmin === true ||
+      groups.creator_id === parseJwt(token).userId
+    ) {
+      const btn = document.createElement("button");
+      btn.setAttribute("onclick", "showMember(event)");
+      btn.setAttribute("id", `${groups.id}`);
+      btn.innerHTML += "add user";
+      element.appendChild(btn);
+    }
+  } else {
+    if (
+      groups.isAdmin === true ||
+      groups.creator_id === parseJwt(token).userId
+    ) {
+      const btn = document.createElement("button");
+      btn.setAttribute("onclick", "showMember(event)");
+      btn.setAttribute("id", `${groups.groupId}`);
+      btn.innerHTML += "add user";
+      element.appendChild(btn);
+    }
   }
+
   usernameElement.appendChild(element);
 
   const logGroup = document.querySelectorAll(".logged-in-group");
@@ -175,6 +181,7 @@ async function showMember(e) {
 
   console.log(e.target.getAttribute("id"));
   groupId = e.target.getAttribute("id");
+  console.log(groupId);
 
   document.getElementById("member-container").style.display = "block";
   const members = await axios.get("http://localhost:3000/api/allUser", {
@@ -293,105 +300,6 @@ function isChatBoxDisplayed(person) {
   }
 }
 
-// document.addEventListener("DOMContentLoaded", async function () {
-//   const usernameElement = document.querySelector(".chat-sidebar");
-//   document.getElementById("username").innerHTML = parseJwt(token).username;
-
-//   await axios
-//     .get("http://localhost:3000/api/allUser", {
-//       headers: { Authorization: `Bearer ${token}` },
-//     })
-//     .then((response) => {
-//       console.log(response.data);
-
-//       for (let i = 0; i < response.data.users.length; i++) {
-//         const para = document.createElement("p");
-//         // para.setAttribute("class", "para");
-//         para.setAttribute("id", `${response.data.users[i].id}`);
-//         const node = document.createTextNode(response.data.users[i].username);
-//         para.appendChild(node);
-//         console.log(para);
-
-//         const element = document.createElement("div");
-//         element.setAttribute("class", "logged-in-user");
-//         element.appendChild(para);
-
-//         usernameElement.appendChild(element);
-
-//         // to show chat user box
-//       }
-//       // let isChatBoxDisplayed = false;
-
-//       const loggedUser = document.querySelectorAll(".logged-in-user");
-//       loggedUser.forEach((person) => {
-//         person.addEventListener("click", async function () {
-//           // document.getElementById("head-tag").hidden = true;
-//           let isChatBoxDisplayed = false;
-//           // console.log(this.id);
-//           // --------------------
-
-//           // Get the value of the id attribute
-//           const pElement = this.querySelector("p");
-//           const pId = pElement.getAttribute("id");
-//           console.log(pId);
-//           receiverId = pId;
-
-//           //---------------------
-//           const getMsgObj = {
-//             sender: getUsername(),
-//             receiver: receiverId,
-//           };
-//           document.querySelector(".chat-messages").innerHTML = "";
-//           const users = await axios.post(
-//             "http://localhost:3000/api/allChat",
-//             getMsgObj,
-//             {
-//               headers: { Authorization: `Bearer ${token}` },
-//             }
-//           );
-//           console.log(users);
-//           const totalMsg = users.data.chats.length;
-//           console.log(users.data.chats[totalMsg - 1].id);
-//           localStorage.setItem(
-//             "lastMessage",
-//             users.data.chats[totalMsg - 1].id
-//           );
-
-//           users.data.chats.forEach((chat) => {
-//             // const div1 = document.createElement("div");
-//             const div2 = document.createElement("div");
-
-//             div2.setAttribute(
-//               "class",
-//               `message-${chat.fromSelf ? "sender" : "receiver"}`
-//             );
-//             const div3 = document.createElement("div");
-//             div3.setAttribute("class", "content");
-
-//             const pElem = document.createElement("p");
-//             pElem.innerHTML = chat.message;
-//             div3.appendChild(pElem);
-//             div2.appendChild(div3);
-//             document.querySelector(".chat-messages").appendChild(div2);
-//           });
-//           // --------------------
-//           document.getElementById("person-name").innerHTML = person.textContent;
-//           if (!isChatBoxDisplayed) {
-//             // Show the chat box
-//             document.getElementById("head-tag").style.display = "none";
-//             document.querySelector(".chat-box").style.display = "block";
-//             document.getElementById("user-name").style.display = "block";
-//             isChatBoxDisplayed = true;
-//           } else {
-//             // Only change the person name
-//             document.getElementById("person-name").innerHTML =
-//               person.textContent;
-//           }
-//         });
-//       });
-//     });
-// });
-
 //send message to server
 
 const inputField = document.querySelector(".chat-input input");
@@ -433,6 +341,7 @@ function createMemberList() {
   memberListContainer.innerHTML = ""; // Clear previous list
   showMemberList();
   allMembers.forEach(async (member) => {
+    console.log(member);
     const memberItem = document.createElement("div");
     memberItem.classList.add("member-item");
 
@@ -489,9 +398,25 @@ function createMemberList() {
     const adminButton = document.createElement("button");
     adminButton.textContent = "Admin";
     adminButton.setAttribute("id", `admin-${member.id}`);
-    adminButton.addEventListener("click", () => {
+    adminButton.addEventListener("click", async () => {
       // Add code here to handle making the member an admin
-      console.log(`Make ${member.id} an admin`);
+      console.log(`Make ${member.id} group of${groupId} an admin`);
+      if (
+        document.getElementById(`admin-${member.id}`).textContent === "Admin"
+      ) {
+        const makeAdmin = await axios.post(
+          "http://localhost:3000/grp/make-admin",
+          { id: member.id, groupId: groupId },
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
+        if (makeAdmin.data.success) {
+          adminButton.textContent = "delAdmin";
+        }
+      } else {
+        removeAdmin(member.id);
+      }
     });
     memberItem.appendChild(adminButton);
 
@@ -501,6 +426,15 @@ function createMemberList() {
 }
 
 // Call the function to create the member list when the page is loaded
+
+function checkSuperAdmin(id, group_id) {
+  for (let i = 0; i < creator_id2.length; i++) {
+    if (id === creator_id2[i].creator_id && group_id === creator_id2[i].id) {
+      return true;
+    }
+  }
+  return false;
+}
 
 async function showMemberList() {
   const allMembers = await axios.get(
@@ -521,14 +455,28 @@ async function showMemberList() {
 
   // const span_id = this.querySelector("span");
   // console.log(span_id.getAttribute("id"));
+  console.log(allMembers);
 
   allMembers.data.allMembers.forEach((member) => {
     spanId.forEach((id) => {
+      console.log("creator_id2:", creator_id2);
+      console.log("id:", id, "member.userId", member.userId);
+      // console.log(member);
       const btn = document.getElementById(`add-btn-${id}`);
-      if (id === member.userId) {
-        console.log(member.userId);
+      const adminBtn = document.getElementById(`admin-${id}`);
+      if (checkSuperAdmin(id, member.groupId)) {
+        console.log("id matched with creator_id2 element");
         btn.textContent = "Remove";
-        // btn.disabled = true;
+        adminBtn.textContent = "delAdmin";
+        btn.disabled = true;
+        adminBtn.disabled = true;
+      }
+      if (id === member.userId) {
+        if (member.isAdmin) {
+          adminBtn.textContent = "delAdmin";
+        }
+        btn.textContent = "Remove";
+        console.log(member.userId);
       }
     });
     // console.log(member);
@@ -548,5 +496,19 @@ async function removeUser(memberId) {
     btn.textContent = "Add";
   }
   console.log(deleteDone);
+}
+
+async function removeAdmin(memberId) {
+  const delAdmin = await axios.post(
+    `http://localhost:3000/grp/remove-admin`,
+    { id: memberId, groupId: groupId },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+  if (delAdmin.data.success) {
+    const btn = document.getElementById(`admin-${memberId}`);
+    btn.textContent = "Admin";
+  }
 }
 document.addEventListener("DOMContentLoaded", createMemberList);
