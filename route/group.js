@@ -16,4 +16,10 @@ router.delete(
   groupController.deleteMember
 );
 
+router.post(
+  "/send-grp-message",
+  auth.authenticate,
+  groupController.addMsgToGrp
+);
+router.get("/get-group-chats", auth.authenticate, groupController.getGrpMsg);
 module.exports = router;

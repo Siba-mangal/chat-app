@@ -14,9 +14,9 @@ const grpRoute = require("./route/group");
 //model
 const User = require("./models/userModule");
 const Message = require("./models/messageModel");
-
 const grpModel = require("./models/grpModel");
 const groupMemberModel = require("./models/groupMemberModel");
+const grpChatModel = require("./models/groupChatmodel");
 
 const app = express();
 const { SESSION_SECRET } = process.env;
@@ -40,8 +40,11 @@ app.use("/grp", grpRoute);
 User.hasMany(Message);
 Message.belongsTo(User);
 
-grpModel.hasMany(Message);
-Message.belongsTo(grpModel);
+// grpModel.hasMany(Message);
+// Message.belongsTo(grpModel);
+
+grpModel.hasMany(grpChatModel);
+grpChatModel.belongsTo(grpModel);
 
 groupMemberModel.hasMany(grpModel);
 grpModel.belongsTo(groupMemberModel);
@@ -49,6 +52,6 @@ grpModel.belongsTo(groupMemberModel);
 sequelize
   .sync()
   .then((res) => {
-    app.listen(3000);
+    app.listen(process.env.PORT || 3000);
   })
   .catch((err) => console.log(err));

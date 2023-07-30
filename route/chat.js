@@ -5,7 +5,7 @@ const auth = require("../middleware/auth.js");
 const router = express.Router();
 
 router.get("/allUser", auth.authenticate, chatController.getAccessUser);
-router.post("/addChat", auth.authenticate, chatController.accessChat);
+router.post("/addChat", auth.authenticate, chatController.addChat);
 router.get("/allChat", auth.authenticate, chatController.allAccessChat);
 
 // router.post("/group", auth.authenticate, chatController.createGroupChat);

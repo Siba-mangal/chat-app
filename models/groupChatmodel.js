@@ -1,8 +1,9 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../util/database");
+const User = require("./userModule");
 
-const groupSchema = sequelize.define(
-  "group-list",
+const groupMessage = sequelize.define(
+  "GroupMessage",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -10,20 +11,18 @@ const groupSchema = sequelize.define(
       allowNull: false,
       primaryKey: true,
     },
-    creator_id: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
-    name: {
+    sender: {
       type: Sequelize.STRING,
-      required: true,
     },
-    limit: {
-      type: Sequelize.INTEGER,
-      required: true,
+    group: {
+      type: Sequelize.STRING,
+    },
+    content: {
+      type: Sequelize.STRING,
+      trim: true,
     },
   },
   { timestamps: true }
 );
 
-module.exports = groupSchema;
+module.exports = groupMessage;

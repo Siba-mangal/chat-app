@@ -64,7 +64,7 @@ const Message = require("../models/messageModel");
 
 // -------------------------------
 
-exports.accessChat = async (req, res) => {
+exports.addChat = async (req, res) => {
   // console.log(req.body);
   const { sender, receiver, content } = req.body;
 
