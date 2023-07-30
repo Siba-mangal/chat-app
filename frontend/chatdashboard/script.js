@@ -54,14 +54,20 @@ let checkFlag = 2;
 document.addEventListener("DOMContentLoaded", async function () {
   document.querySelector(".chat-sidebar").style.display = "block";
   document.getElementById("username").innerHTML = parseJwt(token).username;
-  const allUsers = await axios.get("http://localhost:3000/api/allUser", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const allUsers = await axios.get(
+    "https://chat-app-3syl.onrender.com/api/allUser",
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
   // console.log(allUsers);
   showUsers(allUsers.data.users);
-  const groups = await axios.get("http://localhost:3000/grp/get-group", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const groups = await axios.get(
+    "https://chat-app-3syl.onrender.com/grp/get-group",
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
   // console.log(groups);
 
   // grp = [];
@@ -114,7 +120,7 @@ async function createGrp(e) {
   // Perform any validation or logic with the values
   // console.log(groupName, limit);
   const groups = await axios.post(
-    "http://localhost:3000/grp/add-group",
+    "https://chat-app-3syl.onrender.com/grp/add-group",
     grpData,
     {
       headers: { Authorization: `Bearer ${token}` },
@@ -222,7 +228,7 @@ function showGrpMessages() {
         // isChatBoxDisplayed(group.querySelector("p"));
         let sender = getUsername();
         const users = await axios.get(
-          `http://localhost:3000/grp/get-group-chats?param1=${sender}&param2=${group_msg_id}`,
+          `https://chat-app-3syl.onrender.com/grp/get-group-chats?param1=${sender}&param2=${group_msg_id}`,
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -284,9 +290,12 @@ async function showMember(e) {
   // console.log(groupId);
 
   document.getElementById("member-container").style.display = "block";
-  const members = await axios.get("http://localhost:3000/api/allUser", {
-    headers: { Authorization: `Bearer ${token}` },
-  });
+  const members = await axios.get(
+    "https://chat-app-3syl.onrender.com/api/allUser",
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
   // const memberBox = document.createElement("div");
   // memberBox.setAttribute("class", "member-box");
   // memberBox.innerHTML += "All members";
@@ -338,7 +347,7 @@ function showMessages() {
       let sender = getUsername();
       document.querySelector(".chat-messages").innerHTML = "";
       const users = await axios.get(
-        `http://localhost:3000/api/allChat?param1=${sender}&param2=${receiverId}`,
+        `https://chat-app-3syl.onrender.com/api/allChat?param1=${sender}&param2=${receiverId}`,
         {
           headers: { Authorization: `Bearer ${token}` },
         }
@@ -402,7 +411,7 @@ sendButton.addEventListener("click", async () => {
     // console.log("Message:", msgObj);
 
     const addMsg = await axios.post(
-      "http://localhost:3000/api/addChat",
+      "https://chat-app-3syl.onrender.com/api/addChat",
       msgObj,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -420,7 +429,7 @@ sendButton.addEventListener("click", async () => {
     };
     // // console.log(grpMsgObj);
     const grpMsg = await axios.post(
-      "http://localhost:3000/grp/send-grp-message",
+      "https://chat-app-3syl.onrender.com/grp/send-grp-message",
       grpMsgObj,
       {
         headers: { Authorization: `Bearer ${token}` },
@@ -495,7 +504,7 @@ function createMemberList() {
         };
 
         const members = await axios.post(
-          "http://localhost:3000/grp/addMember",
+          "https://chat-app-3syl.onrender.com/grp/addMember",
           memberObj,
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -529,7 +538,7 @@ function createMemberList() {
         document.getElementById(`admin-${member.id}`).textContent === "Admin"
       ) {
         const makeAdmin = await axios.post(
-          "http://localhost:3000/grp/make-admin",
+          "https://chat-app-3syl.onrender.com/grp/make-admin",
           { id: member.id, groupId: groupId },
           {
             headers: { Authorization: `Bearer ${token}` },
@@ -562,7 +571,7 @@ function checkSuperAdmin(id, group_id) {
 
 async function showMemberList() {
   const allMembers = await axios.get(
-    `http://localhost:3000/grp/get-member?param=${groupId}`,
+    `https://chat-app-3syl.onrender.com/grp/get-member?param=${groupId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -610,7 +619,7 @@ async function showMemberList() {
 async function removeUser(memberId) {
   // console.log(memberId);
   const deleteDone = await axios.delete(
-    `http://localhost:3000/grp/delete-member/:${memberId}`,
+    `https://chat-app-3syl.onrender.com/grp/delete-member/:${memberId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
     }
@@ -626,7 +635,7 @@ async function removeUser(memberId) {
 
 async function removeAdmin(memberId) {
   const delAdmin = await axios.post(
-    `http://localhost:3000/grp/remove-admin`,
+    `https://chat-app-3syl.onrender.com/grp/remove-admin`,
     { id: memberId, groupId: groupId },
     {
       headers: { Authorization: `Bearer ${token}` },

@@ -16,7 +16,7 @@ document
     console.log(loginData);
     // const dataFromLocalStorage = JSON.parse(localStorage.getItem("user"));
     axios
-      .post("http://localhost:3000/user/login", loginData, {
+      .post("https://chat-app-3syl.onrender.com/user/login", loginData, {
         credentials: "included",
       })
       .then((response) => {

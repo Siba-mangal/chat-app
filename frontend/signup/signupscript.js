@@ -34,7 +34,7 @@ signupForm.addEventListener("submit", function (e) {
   // Add user data to localStorage
 
   axios
-    .post("http://localhost:3000/user/signup", formObject)
+    .post("https://chat-app-3syl.onrender.com/user/signup", formObject)
     .then((response) => {
       // console.log(response);
       if (response.status === 201) {
